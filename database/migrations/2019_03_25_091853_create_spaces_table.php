@@ -13,7 +13,7 @@ class CreateSpacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('spaces', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->default('')->comment('项目名字');
             $table->string('desc')->default('')->comment('项目描述');
@@ -29,6 +29,6 @@ class CreateSpacesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('spaces');
     }
 }
