@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Server;
 class ServerController extends Controller
 {
     /**
@@ -34,7 +34,15 @@ class ServerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'content'=>'required',
+            'space_id'=>'required'
+        ]);
+        $data = $request->only(['name','content','space_id']);
+        $server = Server::create($data);
+
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['server'=>$server]]);
     }
 
     /**

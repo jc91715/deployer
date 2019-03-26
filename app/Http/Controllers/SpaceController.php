@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Space;
 
 class SpaceController extends Controller
 {
@@ -34,7 +35,14 @@ class SpaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'desc'=>'required|max:255',
+        ]);
+        $data = $request->only(['name','desc']);
+        $space = Space::create($data);
+
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['space'=>$space]]);
     }
 
     /**

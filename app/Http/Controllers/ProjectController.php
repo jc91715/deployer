@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Project;
+use App\Models\Deployment;
+use App\Services\Deployment\DeployCommanderInterface;
 class ProjectController extends Controller
 {
     /**
@@ -34,7 +36,32 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'repository'=>'required',
+            'space_id'=>'required',
+            'server_id'=>'required',
+            'task_ids'=>'required|array',
+        ]);
+        $data = $request->only(['name','server_id','space_id','repository']);
+        $project = Project::create($data);
+        $project->syncTasks($request->input('task_ids'));
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['project'=>$project]]);
+    }
+    public function deployment(Request $request,DeployCommanderInterface $deployCommander)
+    {
+
+        $this->validate($request,[
+            'project_id'=>'required|exists:projects,id',
+            'stage'=>'required|max:255',
+        ]);
+        $project = Project::find($request->input('project_id'));
+        $data = $request->only(['stage']);
+        $deployment = $project->deployments()->create($data);
+
+
+        $deployCommander->deploy($deployment);
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','deployment'=>['deployment'=>$deployment]]);
     }
 
     /**

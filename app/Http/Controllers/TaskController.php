@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Task;
 class TaskController extends Controller
 {
     /**
@@ -34,7 +34,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'code'=>'required',
+            'space_id'=>'required'
+        ]);
+        $data = $request->only(['name','code','space_id']);
+        $task = Task::create($data);
+
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['task'=>$task]]);
     }
 
     /**

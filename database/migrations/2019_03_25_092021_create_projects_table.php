@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('space_id')->comment('空间id');
             $table->string('name')->default('')->comment('项目名字如正式环境项目');
+            $table->string('repository')->default('')->comment('仓库名字');
             $table->unsignedInteger('server_id')->comment('服务器id');
             $table->text('env')->nullable()->comment('项目环境配置');
 
