@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Deployment extends Model
 {
 
-    protected $fillable = ['stage','status','message'];
+    protected $fillable = ['stage','status','message','deploy_statue','hash'];
 
     public function project()
     {

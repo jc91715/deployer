@@ -54,16 +54,26 @@ class ProjectController extends Controller
         $this->validate($request,[
             'project_id'=>'required|exists:projects,id',
             'stage'=>'required|max:255',
+            'hash'=>'required|max:255'
         ]);
         $project = Project::find($request->input('project_id'));
-        $data = $request->only(['stage']);
+        $data = $request->only(['stage','hash']);
         $deployment = $project->deployments()->create($data);
 
 
         $deployCommander->deploy($deployment);
-        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','deployment'=>['deployment'=>$deployment]]);
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['deployment'=>$deployment]]);
     }
 
+    public function test()
+    {
+        return view('test');
+    }
+    public function getDeployment()
+    {
+        $deployment = Deployment::find(1);
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['deployment'=>$deployment]]);
+    }
     /**
      * Display the specified resource.
      *

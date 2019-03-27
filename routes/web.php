@@ -11,12 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+//Route::get('/test','ProjectController@test');
+Route::get('/deployment','ProjectController@getDeployment');
 Route::post('/deployment','ProjectController@deployment');
+
+Route::any('/{all?}','ProjectController@test')->where(['all'=>'.*']);

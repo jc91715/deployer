@@ -18,5 +18,21 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data:{
+       message:''
+    },
+    methods:{
+      getDeployment(){
+          var time =setInterval(()=>{
+              axios.get('deployment').then(res=>{
+                  this.message = res.data.data.deployment.message
+              })
+          },2000)
+
+      }
+    },
+    created(){
+        this.getDeployment()
+    }
 });

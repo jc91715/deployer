@@ -51,9 +51,15 @@ class DeployerTaskFileBuilder implements DeployerFileBuilderInterface
     public function put()
     {
         $fullPath = $this->deployerFile->getFullPath();
-        $contents = $this->task->code;
+        $content = $this->task->code;
+        $contents[] = '<?php';
 
-        $this->fs->put($fullPath, $contents);
+        // Declare a namespace
+        $contents[] = 'namespace Deployer;';
+        $contents[] = '?>';
+        $contents[] = $content;
+
+        $this->fs->put($fullPath,  implode(PHP_EOL, $contents));
 
         return $this;
     }

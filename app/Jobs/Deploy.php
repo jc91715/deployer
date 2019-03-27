@@ -65,7 +65,7 @@ class Deploy implements ShouldQueue
             ->setTaskFile($taskFiles);
         $deploymentFile = $app->make('App\Services\Deployment\DeployerFileDirector', ['fileBuilder'=>$deploymentFileBuilder])->construct();
 
-        $commond = [$this->executable,"-f={$deploymentFile->getFullPath()}",'--ansi','-n','-vv','deploy',$deployment->stage];
+        $commond = [$this->executable,"-f={$deploymentFile->getFullPath()}",'--ansi','-n','-vv','deploy',$deployment->stage,"--revision={$deployment->hash}"];
         $process = new Process($commond);
 
         $process->setTimeout(3600);//总超时
@@ -77,13 +77,13 @@ class Deploy implements ShouldQueue
             $deployment->update($tmp);
         });
 
-        if ($process->isSuccessful()) {
-            $message = $process->getOutput();
-        } else {
-            $message = $process->getErrorOutput();
-        }
+//        if ($process->isSuccessful()) {
+//            $message = $process->getOutput();
+//        } else {
+//            $message = $process->getErrorOutput();
+//        }
         $data['status']  = $process->getExitCode();
-        $data['message'] = $message;
+
         $deployment->update($data);
 
     }

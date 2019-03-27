@@ -19,7 +19,9 @@ class CreateDeploymentsTable extends Migration
 //            $table->integer('number')->unsigned();
 //            $table->string('task');
             $table->string('stage')->default('')->comment('分支名字');
-            $table->tinyInteger('status')->unsigned()->nullable()->comment('进行到哪一步，记录部署状态');
+            $table->string('hash')->default('')->comment('分支hash');
+            $table->tinyInteger('status')->unsigned()->default(0)->comment('进行到哪一步，记录部署状态,客户端0未部署1部署中2部署失败3部署完成');
+            $table->string('deploy_statue')->default('')->comment('自动记录');
             $table->text('message')->nullable()->comment('shell console')->comment('部署信息');
             $table->integer('user_id')->unsigned()->comment('提交工单用户ID');
 

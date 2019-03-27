@@ -68,8 +68,8 @@ class DeployCommand extends Command
             ->setTaskFile($taskFiles);
         $deploymentFile = $app->make('App\Services\Deployment\DeployerFileDirector', ['fileBuilder'=>$deploymentFileBuilder])->construct();
 
-        $commond = [$this->executable,"-f={$deploymentFile->getFullPath()}",'--ansi','-n','-vv','deploy',$deployment->stage];
-        $process = new Process($commond);
+        $command = [$this->executable,"-f={$deploymentFile->getFullPath()}",'--ansi','-n','-vv','deploy',$deployment->stage,"--revision={$deployment->hash}"];
+        $process = new Process($command);
 
         $process->setTimeout(3600);//总超时
 //        $process->setIdleTimeout(60);//上一次output 被进程输出的时间
@@ -81,14 +81,15 @@ class DeployCommand extends Command
         });
 
         if ($process->isSuccessful()) {
-            $message = $process->getOutput();
+            $data['statue']  = 3;
+//            $message = $process->getOutput();
 
         } else {
-
-            $message = $process->getErrorOutput();
+            $data['statue']  = 2;
+//            $message = $process->getErrorOutput();
         }
-        $data['status']  = $process->getExitCode();
-        $data['message'] = $message;
+        $data['deploy_statue']  = $process->getExitCode();
+
         $deployment->update($data);
     }
 }
