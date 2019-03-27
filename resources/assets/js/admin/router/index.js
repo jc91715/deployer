@@ -3,24 +3,26 @@ var index =[
     {
         path: '/',
         name: 'home',
-        component: Home
-    },
-
-    {
-        path: '/login',
-        name: 'login',
-        component: ()=>import('../views/Login.vue')
-    },
-    {
-        path: '/projects',
-        name: 'project',
-        component: ()=>import('../views/Home.vue'),
+        component: Home,
         children: [
             {
-                path: '',
-                component: require('../views/project/Index.vue'),
-            }
+                path: 'login',
+                name: 'login',
+                component: ()=>import('../views/Login.vue')
+            },
+            {
+                path: 'projects',
+                component: ()=>import('../views/Container.vue'),
+                children: [
+                    {
+                        path: '',
+                        component: ()=>import('../views/project/Index.vue'),
+                        name: 'project',
+                    }
+                ]
+            },
         ]
     },
+
 ]
 export default index

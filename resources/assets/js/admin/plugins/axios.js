@@ -4,9 +4,9 @@ import Vue from 'vue';
 import axios from "axios";
 import {router} from '../router'
 import store from '../store'
-
+import localforage from 'localforage'
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = "http://blog.work"|| process.env.baseURL || process.env.apiUrl || '';
+axios.defaults.baseURL = "http://deployer.work"|| process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -44,6 +44,7 @@ _axios.interceptors.response.use(
             case 401:
                 if(router.currentRoute.name!=='login'){
                     // 返回 401 清除token信息并跳转到登录页面
+
                     router.replace({
                         path: 'login',
                         query: {redirect: store.getters['getBaseIntend']}

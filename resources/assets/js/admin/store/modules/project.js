@@ -1,4 +1,4 @@
-import post from '../../api/project'
+import project from '../../api/project'
 
 export default {
     state: {
@@ -6,12 +6,12 @@ export default {
         list: []
     },
     actions: {
-        async postFetch({ commit, state }, { id }) {
+        async projectFetch({ commit, state }, { id }) {
             // 对axios和api进行了简单的封装,使api请求更加语义化
-            const { data } = await post.index(id)
+            const {data} = await project.index(id)
 
             // action只能通过提交commit来修改state,具体原因请查看vuex文档 (其实我也忘了为啥 (╯﹏╰))
-            commit('SET_LIST', data)
+            commit('SET_LIST', data.data.projects)
         }
     },
     mutations: {
@@ -23,6 +23,6 @@ export default {
         },
     },
     getters: {
-        getPostList: (state) => state.list
+        getProjectList: (state) => state.list
     }
 }

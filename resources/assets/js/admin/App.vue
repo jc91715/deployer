@@ -1,30 +1,25 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <router-link to="/">
-                Home
-            </router-link> |
-            <router-link to="/login">
-                登录
-            </router-link> |
-            <router-link to="/login_in">
-                login_in
-            </router-link>
-            <router-link to="/posts">
-                posts
-            </router-link>
-        </div>
+        <!--<div id="nav">-->
+            <!--<router-link to="/">-->
+                <!--Home-->
+            <!--</router-link> |-->
+            <!--<router-link to="/login">-->
+                <!--登录-->
+            <!--</router-link> |-->
+            <!--<router-link to="/projects">-->
+               <!--项目列表-->
+            <!--</router-link>-->
+            <!--<router-link to="/posts">-->
+                <!--posts-->
+            <!--</router-link>-->
+        <!--</div>-->
         <router-view />
     </div>
 </template>
 
 <style>
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
+
     }
 </style>

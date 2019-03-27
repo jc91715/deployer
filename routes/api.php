@@ -17,3 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware'=>'auth:api','as' => 'api.admin.', 'prefix' => 'admin'],function(){
+    Route::resource('spaces', 'SpaceController');
+    Route::resource('projects', 'ProjectController');
+    Route::resource('tasks', 'TaskController');
+    Route::resource('severs', 'ServerController');
+});

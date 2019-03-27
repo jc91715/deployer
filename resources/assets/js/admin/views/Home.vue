@@ -10,6 +10,11 @@
             return {
 
             }
+        },
+        methods:{
+            adminRouter(name){
+              return Laravel.router('api.admin.'+name)
+            },
         }
 
     }

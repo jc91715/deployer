@@ -1,7 +1,12 @@
 
-module.exports = (routes) => {
+module.exports = (routes,type) => {
     return (route, param) => {
-        let routeUrl = routes[route];
+        if(type){
+            var routeUrl = routes[type+route];
+        }else{
+            var routeUrl = routes[route];
+        }
+
         let append = [];
 
         for (let x in param) {

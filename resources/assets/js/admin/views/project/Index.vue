@@ -1,7 +1,8 @@
 <template>
     <div class="post-index">
+        dd
         <div v-for="list in lists">
-            <h1>{{list.name}}</h1>
+            <h1>{{list.stage}}</h1>
         </div>
     </div>
 </template>
@@ -15,7 +16,7 @@
         },
         async beforeRouteEnter (to, from, next) {
             // 等待模型数据加载完毕,才继续进行vue组件的生命周期
-            await store.dispatch('postFetch',{id:1})
+            await store.dispatch('projectFetch',{id:1})
             next()
         },
         created(){

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import localforage from 'localforage'
 import index from './router/index'
 import store from './store'
 Vue.use(Router)
@@ -11,9 +11,9 @@ export const   router = new Router({
 router.beforeEach((to, from, next) => {
 
     // 获取 JWT Token
-    const publicPages = ['/login','/'];
+    const publicPages = ['/login','/','/projects'];
     const authRequired = !publicPages.includes(to.path);
-    const jwtToken = localStorage.getItem('token');
+    const jwtToken = localforage.getItem('token');
     if(to.name!=='login'){
         store.commit('SET_INTEND',to.fullPath)
     }

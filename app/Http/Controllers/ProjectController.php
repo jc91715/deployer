@@ -15,7 +15,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::get();
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['projects'=>$projects]]);
     }
 
     /**
@@ -71,7 +72,7 @@ class ProjectController extends Controller
     }
     public function getDeployment()
     {
-        $deployment = Deployment::find(1);
+        $deployment = Deployment::get();
         return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['deployment'=>$deployment]]);
     }
     /**
