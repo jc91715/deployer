@@ -17,7 +17,7 @@ class DeployerDeploymentFileBuilder implements DeployerFileBuilderInterface
     protected $serverListFile;
 
     protected $taskFile;
-
+    protected $envPath;
     public function __construct(FilesystemInterface $fs, DeployerFile $deployerFile)
     {
         $this->fs           = $fs;
@@ -26,7 +26,10 @@ class DeployerDeploymentFileBuilder implements DeployerFileBuilderInterface
 
     public function __destruct()
     {
-//        $this->fs->delete($this->deployerFile->getFullPath());
+        $this->fs->delete($this->deployerFile->getFullPath());
+        if($this->envPath){
+            $this->fs->delete($this->envPath);
+        }
     }
 
     /**
@@ -70,7 +73,7 @@ class DeployerDeploymentFileBuilder implements DeployerFileBuilderInterface
         //上传env配置文件
         $id = md5(uniqid(rand(), true));
         $baseName = "env_$id.php";
-        $envPath = storage_path("app/$baseName");
+       $this->envPath= $envPath = storage_path("app/$baseName");
         $this->fs->put($envPath, $this->project->env);
 
         $contents[] =  "task('env:upload', function() {

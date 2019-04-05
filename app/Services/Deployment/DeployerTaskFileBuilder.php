@@ -22,7 +22,7 @@ class DeployerTaskFileBuilder implements DeployerFileBuilderInterface
 
     public function __destruct()
     {
-//        $this->fs->delete($this->deployerFile->getFullPath());
+        $this->fs->delete($this->deployerFile->getFullPath());
     }
 
     /**
