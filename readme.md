@@ -26,7 +26,9 @@ php artisan db:seed
 * Laravel 5.5
 前端
 * vue 2.6.6
+
 使用laravel-mix 前端打包后的代码在public/build/admin 路径下。两种方式访问前端代码
+
 * 1 yourdomain.com
 * 2 yourdomain.com/build/admin/index.html
 ### 如何使用
