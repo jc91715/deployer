@@ -14,6 +14,10 @@ cd project && composer install
 ```
 php artisan db:seed
 ```
+## 队列监听
+```
+php artisan queue:listen &
+```
 
 ## 访问 yourdomain.com 或者 yourdomain.com/build/admin/index.html
 
