@@ -45,15 +45,11 @@ class ServerController extends Controller
         return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['server'=>$server]]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($space,$server)
     {
-        //
+        $server = Server::find($server);
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['server'=>$server]]);
     }
 
     /**
@@ -74,9 +70,17 @@ class ServerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($space,$server,Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'content'=>'required'
+        ]);
+        $data = $request->only(['name','content']);
+        $server = Server::find($server);
+        $server->update($data);
+
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['server'=>$server]]);
     }
 
     /**

@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 //Route::get('/test','ProjectController@test');
-Route::get('/deployment','ProjectController@getDeployment');
-Route::post('/deployment','ProjectController@deployment');
+//Route::get('/deployment','ProjectController@getDeployment');
+//Route::post('/deployment','ProjectController@deployment');
 
-Route::any('/{all?}','ProjectController@test')->where(['all'=>'.*']);
+Route::any('/{all?}','Controller@deployer')->where(['all'=>'.*']);

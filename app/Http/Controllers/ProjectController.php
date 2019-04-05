@@ -43,8 +43,9 @@ class ProjectController extends Controller
             'space_id'=>'required',
             'server_id'=>'required',
             'task_ids'=>'required|array',
+            'env'=>'required',
         ]);
-        $data = $request->only(['name','server_id','space_id','repository']);
+        $data = $request->only(['name','server_id','space_id','repository','env']);
         $project = Project::create($data);
         $project->syncTasks($request->input('task_ids'));
         return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['project'=>$project]]);
@@ -81,9 +82,10 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($space,$project)
     {
-        //
+        $project = Project::find($project)->load('tasks','server');
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['project'=>$project]]);
     }
 
     /**
@@ -104,9 +106,20 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($space,$project,Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'repository'=>'required',
+            'server_id'=>'required',
+            'task_ids'=>'required|array',
+            'env'=>'required',
+        ]);
+        $project = Project::find($project);
+        $data = $request->only(['name','server_id','repository','env']);
+        $project->update($data);
+        $project->syncTasks($request->input('task_ids'));
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['project'=>$project]]);
     }
 
     /**

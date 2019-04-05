@@ -25,6 +25,12 @@ mix.webpackConfig({
             filename: 'index.html'
         }),
     ],
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            '@': __dirname + '/resources/assets/js/admin'
+        },
+    },
 });
 mix.config.webpackConfig.output = {
     chunkFilename: 'js/[name].bundle.js',

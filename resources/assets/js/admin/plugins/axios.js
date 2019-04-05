@@ -5,10 +5,10 @@ import axios from "axios";
 import {router} from '../router'
 import store from '../store'
 import localforage from 'localforage'
+import { Message } from 'element-ui'
 // Full config:  https://github.com/axios/axios#request-config
 axios.defaults.baseURL = "http://deployer.work"|| process.env.baseURL || process.env.apiUrl || '';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 
 let config = {
     // baseURL: "http://blog.work"||process.env.baseURL || process.env.apiUrl || "http://blog.work"
@@ -50,6 +50,19 @@ _axios.interceptors.response.use(
                         query: {redirect: store.getters['getBaseIntend']}
                     });
                 }
+                break;
+            case 422:
+                let data = error.response.data.errors
+                let content = ''
+                Object.keys(data).map(function (key) {
+                    let value = data[key]
+                    content += value[0]+'<br>'
+                })
+                Message({
+                    dangerouslyUseHTMLString: true,
+                    message: content,
+                    type: 'error'
+                });
                 break;
         }
         // Do something with response error

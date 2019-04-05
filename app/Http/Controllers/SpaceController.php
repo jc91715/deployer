@@ -14,7 +14,8 @@ class SpaceController extends Controller
      */
     public function index()
     {
-        //
+        $spaces = Space::get();
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['spaces'=>$spaces]]);
     }
 
     /**
@@ -51,9 +52,9 @@ class SpaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Space $space)
     {
-        //
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['space'=>$space->load('projects','tasks','servers')]]);
     }
 
     /**

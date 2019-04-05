@@ -10,7 +10,7 @@ export default {
         async attemptLogin({ commit, state }, payload) {
             // 对axios和api进行了简单的封装,使api请求更加语义化
             const {data} = await user.attemptLogin(payload)
-            console.log(data)
+
             // action只能通过提交commit来修改state,具体原因请查看vuex文档 (其实我也忘了为啥 (╯﹏╰))
             localStorage.setItem('token',data.access_token)
             commit('SET_TOKEN', data.access_token)

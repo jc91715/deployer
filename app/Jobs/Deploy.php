@@ -72,17 +72,20 @@ class Deploy implements ShouldQueue
 //        $process->setIdleTimeout(60);//上一次output 被进程输出的时间
 
         $tmp['message'] = '';
+        $tmp['status'] = 1;
         $process->run(function ($type, $buffer)use(&$tmp,$deployment) {
             $tmp['message'] .= $buffer;
             $deployment->update($tmp);
         });
 
-//        if ($process->isSuccessful()) {
+        if ($process->isSuccessful()) {
+            $data['status'] = 3;
 //            $message = $process->getOutput();
-//        } else {
+        } else {
+            $data['status'] = 2;
 //            $message = $process->getErrorOutput();
-//        }
-        $data['status']  = $process->getExitCode();
+        }
+        $data['deploy_statue']  = $process->getExitCode();
 
         $deployment->update($data);
 

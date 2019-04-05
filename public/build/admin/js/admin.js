@@ -1,6 +1,6 @@
-webpackJsonp([5],{
+webpackJsonp([12],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/views/Home.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/views/backend/Home.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17,12 +17,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {};
     },
 
-    methods: {
-        adminRouter: function adminRouter(name) {
-            return Laravel.router('api.admin.' + name);
+    computed: {
+        router_key: function router_key() {
+            return this.$route.path + Math.random();
         }
     }
-
 });
 
 /***/ }),
@@ -3845,14 +3844,14 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-316e0ef2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/views/Home.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1624f5e6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/views/backend/Home.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("router-view")], 1)
+  return _c("div", [_c("router-view", { key: _vm.router_key })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3860,7 +3859,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-316e0ef2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1624f5e6", module.exports)
   }
 }
 
@@ -5222,7 +5221,121 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/admin/api/deployment.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    index: function index(_ref) {
+        var params = _objectWithoutProperties(_ref, []);
+
+        return axios.get(Laravel.adminRouter('deployments.index', _extends({}, params)));
+    },
+    show: function show(_ref2) {
+        var space = _ref2.space,
+            project = _ref2.project,
+            deployment_id = _ref2.deployment_id,
+            params = _objectWithoutProperties(_ref2, ['space', 'project', 'deployment_id']);
+
+        return axios.get(Laravel.adminRouter('deployments.show', _extends({ space: space, project: project, deployment: deployment_id }, params)));
+    },
+    store: function store(_ref3) {
+        var space = _ref3.space,
+            project_id = _ref3.project_id,
+            stage = _ref3.stage,
+            hash = _ref3.hash,
+            params = _objectWithoutProperties(_ref3, ['space', 'project_id', 'stage', 'hash']);
+
+        return axios.post(Laravel.adminRouter('deployments.store', { space: space, project: project_id }), _extends({ project_id: project_id, stage: stage, hash: hash }, params));
+    }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/admin/api/project.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    store: function store(_ref) {
+        var space_id = _ref.space_id,
+            name = _ref.name,
+            env = _ref.env,
+            server_id = _ref.server_id,
+            task_ids = _ref.task_ids,
+            repository = _ref.repository,
+            params = _objectWithoutProperties(_ref, ['space_id', 'name', 'env', 'server_id', 'task_ids', 'repository']);
+
+        return axios.post(Laravel.adminRouter('projects.store', { space: space_id }), _extends({ space_id: space_id, name: name, env: env, server_id: server_id, task_ids: task_ids, repository: repository }, params));
+    },
+    update: function update(_ref2) {
+        var space_id = _ref2.space_id,
+            project_id = _ref2.project_id,
+            name = _ref2.name,
+            env = _ref2.env,
+            server_id = _ref2.server_id,
+            task_ids = _ref2.task_ids,
+            repository = _ref2.repository,
+            params = _objectWithoutProperties(_ref2, ['space_id', 'project_id', 'name', 'env', 'server_id', 'task_ids', 'repository']);
+
+        return axios.put(Laravel.adminRouter('projects.update', { space: space_id, project: project_id }), _extends({ name: name, env: env, server_id: server_id, task_ids: task_ids, repository: repository }, params));
+    },
+    show: function show(_ref3) {
+        var space = _ref3.space,
+            project_id = _ref3.project_id,
+            params = _objectWithoutProperties(_ref3, ['space', 'project_id']);
+
+        return axios.get(Laravel.adminRouter('projects.show', _extends({ space: space, project: project_id }, params)));
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/api/server.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+    store: function store(_ref) {
+        var space_id = _ref.space_id,
+            name = _ref.name,
+            content = _ref.content;
+
+        return axios.post(Laravel.adminRouter('servers.store', { space: space_id }), { space_id: space_id, name: name, content: content });
+    },
+    update: function update(_ref2) {
+        var space_id = _ref2.space_id,
+            server_id = _ref2.server_id,
+            name = _ref2.name,
+            content = _ref2.content;
+
+        return axios.put(Laravel.adminRouter('servers.update', { space: space_id, server: server_id }), { space_id: space_id, name: name, content: content });
+    },
+    show: function show(_ref3) {
+        var space = _ref3.space,
+            server_id = _ref3.server_id,
+            params = _objectWithoutProperties(_ref3, ['space', 'server_id']);
+
+        return axios.get(Laravel.adminRouter('servers.show', _extends({ space: space, server: server_id }, params)));
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/api/space.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5238,13 +5351,62 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
             order = _ref$order === undefined ? 'desc' : _ref$order,
             params = _objectWithoutProperties(_ref, ['sort_by', 'order']);
 
-        return axios.get(Laravel.adminRouter('projects.index'), {
+        return axios.get(Laravel.adminRouter('spaces.index'), {
             params: _extends({
                 sort_by: sort_by,
                 order: order
             }, params)
         });
+    },
+    store: function store(_ref2) {
+        var name = _ref2.name,
+            desc = _ref2.desc;
+
+        return axios.post(Laravel.adminRouter('spaces.store'), { name: name, desc: desc });
+    },
+    show: function show(_ref3) {
+        var id = _ref3.id;
+
+        return axios.get(Laravel.adminRouter('spaces.show', { space: id }));
     }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/api/task.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+    store: function store(_ref) {
+        var space_id = _ref.space_id,
+            name = _ref.name,
+            code = _ref.code,
+            params = _objectWithoutProperties(_ref, ['space_id', 'name', 'code']);
+
+        return axios.post(Laravel.adminRouter('tasks.store', { space: space_id }), _extends({ space_id: space_id, name: name, code: code }, params));
+    },
+    update: function update(_ref2) {
+        var space_id = _ref2.space_id,
+            task_id = _ref2.task_id,
+            name = _ref2.name,
+            code = _ref2.code;
+
+        return axios.put(Laravel.adminRouter('tasks.update', { space: space_id, task: task_id }), { space_id: space_id, name: name, code: code });
+    },
+    show: function show(_ref3) {
+        var space = _ref3.space,
+            task_id = _ref3.task_id,
+            params = _objectWithoutProperties(_ref3, ['space', 'task_id']);
+
+        return axios.get(Laravel.adminRouter('tasks.show', _extends({ space: space, task: task_id }, params)));
+    }
+
 });
 
 /***/ }),
@@ -5323,14 +5485,18 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({
 router.beforeEach(function (to, from, next) {
 
     // 获取 JWT Token
-    var publicPages = ['/login', '/', '/projects'];
+    var publicPages = ['/login'];
     var authRequired = !publicPages.includes(to.path);
-    var jwtToken = __WEBPACK_IMPORTED_MODULE_2_localforage___default.a.getItem('token');
+    var jwtToken = localStorage.getItem('token');
     if (to.name !== 'login') {
         __WEBPACK_IMPORTED_MODULE_4__store__["a" /* default */].commit('SET_INTEND', to.fullPath);
     }
     if (authRequired && !jwtToken) {
         return next('/login');
+    }
+    // //todo 已登录检查token
+    if (to.fullPath == '/') {
+        next('/backend');
     }
 
     next();
@@ -5342,30 +5508,128 @@ router.beforeEach(function (to, from, next) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_Home_vue__ = __webpack_require__("./resources/assets/js/admin/views/Home.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_Home_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__views_Home_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue__ = __webpack_require__("./resources/assets/js/admin/views/backend/Home.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue__);
 
 var index = [{
     path: '/',
     name: 'home',
-    component: __WEBPACK_IMPORTED_MODULE_0__views_Home_vue___default.a,
+    component: __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default.a,
     children: [{
         path: 'login',
         name: 'login',
         component: function component() {
-            return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/Login.vue"));
+            return __webpack_require__.e/* import() */(25).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/Login.vue"));
         }
     }, {
-        path: 'projects',
+        path: 'backend',
         component: function component() {
-            return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/Container.vue"));
+            return __webpack_require__.e/* import() */(29).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/Container.vue"));
         },
         children: [{
             path: '',
             component: function component() {
-                return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/project/Index.vue"));
+                return __webpack_require__.e/* import() */(26).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/Index.vue"));
             },
-            name: 'project'
+            name: 'backend'
+        }, {
+            path: 'spaces',
+            component: __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default.a,
+            children: [{
+                path: '',
+                component: function component() {
+                    return __webpack_require__.e/* import() */(6).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/space/Index.vue"));
+                },
+                name: 'spaces'
+            }, {
+                path: ':id',
+                component: function component() {
+                    return __webpack_require__.e/* import() */(5).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/space/Show.vue"));
+                },
+                name: 'spaces.show',
+                props: true
+            }, {
+                path: ':id/projects',
+                component: __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default.a,
+                props: true,
+                children: [{
+                    path: 'create',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/project/Create.vue"));
+                    },
+                    name: 'projects.create',
+                    props: true
+                }, {
+                    path: ':project_id/edit',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(1).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/project/Edit.vue"));
+                    },
+                    name: 'projects.edit',
+                    props: true
+                }, {
+                    path: ':project_id/deployments',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(9).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/deployment/Index.vue"));
+                    },
+                    name: 'projects.deployments',
+                    props: true
+                }, {
+                    path: ':project_id/deployments/:deployment_id',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(8).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/deployment/Show.vue"));
+                    },
+                    name: 'projects.deployments.show',
+                    props: true
+                }]
+            }, {
+                path: ':id/servers',
+                component: __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default.a,
+                props: true,
+                children: [{
+                    path: 'create',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(4).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/server/Create.vue"));
+                    },
+                    name: 'servers.create',
+                    props: true
+                }, {
+                    path: ':server_id/edit',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/server/Edit.vue"));
+                    },
+                    name: 'servers.edit',
+                    props: true
+                }]
+            }, {
+                path: ':id/tasks',
+                component: __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default.a,
+                props: true,
+                children: [{
+                    path: 'create',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(3).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/task/Create.vue"));
+                    },
+                    name: 'tasks.create',
+                    props: true
+                }, {
+                    path: ':task_id/edit',
+                    component: function component() {
+                        return __webpack_require__.e/* import() */(14).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/task/Edit.vue"));
+                    },
+                    name: 'tasks.edit',
+                    props: true
+                }]
+            }]
+        }, {
+            path: 'projects',
+            component: __WEBPACK_IMPORTED_MODULE_0__views_backend_Home_vue___default.a,
+            children: [{
+                path: '',
+                component: function component() {
+                    return __webpack_require__.e/* import() */(7).then(__webpack_require__.bind(null, "./resources/assets/js/admin/views/backend/project/Index.vue"));
+                },
+                name: 'projects'
+            }]
         }]
     }]
 }];
@@ -5381,8 +5645,16 @@ var index = [{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_modules_project__ = __webpack_require__("./resources/assets/js/admin/store/modules/project.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_modules_user__ = __webpack_require__("./resources/assets/js/admin/store/modules/user.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_base__ = __webpack_require__("./resources/assets/js/admin/store/base.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_modules_deployment__ = __webpack_require__("./resources/assets/js/admin/store/modules/deployment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_modules_user__ = __webpack_require__("./resources/assets/js/admin/store/modules/user.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__store_modules_space__ = __webpack_require__("./resources/assets/js/admin/store/modules/space.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__store_modules_server__ = __webpack_require__("./resources/assets/js/admin/store/modules/server.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__store_modules_task__ = __webpack_require__("./resources/assets/js/admin/store/modules/task.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__store_base__ = __webpack_require__("./resources/assets/js/admin/store/base.js");
+
+
+
+
 
 
 
@@ -5394,8 +5666,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     modules: {
         project: __WEBPACK_IMPORTED_MODULE_2__store_modules_project__["a" /* default */],
-        user: __WEBPACK_IMPORTED_MODULE_3__store_modules_user__["a" /* default */],
-        base: __WEBPACK_IMPORTED_MODULE_4__store_base__["a" /* default */]
+        user: __WEBPACK_IMPORTED_MODULE_4__store_modules_user__["a" /* default */],
+        space: __WEBPACK_IMPORTED_MODULE_5__store_modules_space__["a" /* default */],
+        server: __WEBPACK_IMPORTED_MODULE_6__store_modules_server__["a" /* default */],
+        task: __WEBPACK_IMPORTED_MODULE_7__store_modules_task__["a" /* default */],
+        deployment: __WEBPACK_IMPORTED_MODULE_3__store_modules_deployment__["a" /* default */],
+        base: __WEBPACK_IMPORTED_MODULE_8__store_base__["a" /* default */]
     }
 }));
 
@@ -5424,14 +5700,18 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /***/ }),
 
-/***/ "./resources/assets/js/admin/store/modules/project.js":
+/***/ "./resources/assets/js/admin/store/modules/deployment.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_project__ = __webpack_require__("./resources/assets/js/admin/api/project.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_deployment__ = __webpack_require__("./resources/assets/js/admin/api/deployment.js");
 
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -5443,11 +5723,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         list: []
     },
     actions: {
-        projectFetch: function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref, _ref2) {
-                var commit = _ref.commit,
-                    state = _ref.state;
-                var id = _ref2.id;
+        deploymentFetch: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref2, _ref) {
+                var commit = _ref2.commit,
+                    state = _ref2.state;
+
+                var params = _objectWithoutProperties(_ref, []);
 
                 var _ref4, data;
 
@@ -5456,7 +5737,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.next = 2;
-                                return __WEBPACK_IMPORTED_MODULE_1__api_project__["a" /* default */].index(id);
+                                return __WEBPACK_IMPORTED_MODULE_1__api_deployment__["a" /* default */].index(_extends({}, params));
 
                             case 2:
                                 _ref4 = _context.sent;
@@ -5464,7 +5745,437 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
                                 // action只能通过提交commit来修改state,具体原因请查看vuex文档 (其实我也忘了为啥 (╯﹏╰))
-                                commit('SET_LIST', data.data.projects);
+                                commit('SET_DEPLOYMENT_LIST', data.data.deployments);
+                                commit('SET_PROJECT_ITEM', data.data.project);
+                                commit('SET_SPACE_ITEM', data.data.space);
+
+                            case 7:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function deploymentFetch(_x, _x2) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return deploymentFetch;
+        }(),
+        deploymentShow: function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(_ref6, _ref5) {
+                var commit = _ref6.commit,
+                    state = _ref6.state;
+
+                var space = _ref5.space,
+                    project = _ref5.project,
+                    deployment_id = _ref5.deployment_id,
+                    params = _objectWithoutProperties(_ref5, ['space', 'project', 'deployment_id']);
+
+                var _ref8, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_deployment__["a" /* default */].show(_extends({ space: space, project: project, deployment_id: deployment_id }, params));
+
+                            case 2:
+                                _ref8 = _context2.sent;
+                                data = _ref8.data;
+                                return _context2.abrupt('return', data);
+
+                            case 5:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function deploymentShow(_x3, _x4) {
+                return _ref7.apply(this, arguments);
+            }
+
+            return deploymentShow;
+        }(),
+        deploymentStore: function () {
+            var _ref11 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(_ref10, _ref9) {
+                var commit = _ref10.commit,
+                    state = _ref10.state;
+
+                var space = _ref9.space,
+                    project_id = _ref9.project_id,
+                    stage = _ref9.stage,
+                    hash = _ref9.hash,
+                    params = _objectWithoutProperties(_ref9, ['space', 'project_id', 'stage', 'hash']);
+
+                var _ref12, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_deployment__["a" /* default */].store(_extends({ space: space, project_id: project_id, stage: stage, hash: hash }, params));
+
+                            case 2:
+                                _ref12 = _context3.sent;
+                                data = _ref12.data;
+                                return _context3.abrupt('return', data);
+
+                            case 5:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function deploymentStore(_x5, _x6) {
+                return _ref11.apply(this, arguments);
+            }
+
+            return deploymentStore;
+        }()
+    },
+    mutations: {
+        SET_DEPLOYMENT_LIST: function SET_DEPLOYMENT_LIST(state, item) {
+            state.list = item;
+        },
+        SET_DEPLOYMENT_ITEM: function SET_DEPLOYMENT_ITEM(state, item) {
+            state.item = item;
+        }
+    },
+    getters: {}
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/store/modules/project.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_project__ = __webpack_require__("./resources/assets/js/admin/api/project.js");
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: {
+        item: {},
+        list: []
+    },
+    actions: {
+        projectStore: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref2, _ref) {
+                var commit = _ref2.commit,
+                    state = _ref2.state;
+
+                var space_id = _ref.space_id,
+                    name = _ref.name,
+                    env = _ref.env,
+                    server_id = _ref.server_id,
+                    task_ids = _ref.task_ids,
+                    repository = _ref.repository,
+                    params = _objectWithoutProperties(_ref, ['space_id', 'name', 'env', 'server_id', 'task_ids', 'repository']);
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_project__["a" /* default */].store(_extends({ space_id: space_id, name: name, env: env, server_id: server_id, task_ids: task_ids, repository: repository }, params));
+
+                            case 2:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function projectStore(_x, _x2) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return projectStore;
+        }(),
+        projectUpdate: function () {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(_ref5, _ref4) {
+                var commit = _ref5.commit,
+                    state = _ref5.state;
+
+                var space_id = _ref4.space_id,
+                    project_id = _ref4.project_id,
+                    name = _ref4.name,
+                    env = _ref4.env,
+                    server_id = _ref4.server_id,
+                    task_ids = _ref4.task_ids,
+                    repository = _ref4.repository,
+                    params = _objectWithoutProperties(_ref4, ['space_id', 'project_id', 'name', 'env', 'server_id', 'task_ids', 'repository']);
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_project__["a" /* default */].update(_extends({ space_id: space_id, project_id: project_id, name: name, env: env, server_id: server_id, task_ids: task_ids, repository: repository }, params));
+
+                            case 2:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function projectUpdate(_x3, _x4) {
+                return _ref6.apply(this, arguments);
+            }
+
+            return projectUpdate;
+        }(),
+        projectShow: function () {
+            var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(_ref8, _ref7) {
+                var commit = _ref8.commit,
+                    state = _ref8.state;
+
+                var space = _ref7.space,
+                    project_id = _ref7.project_id,
+                    params = _objectWithoutProperties(_ref7, ['space', 'project_id']);
+
+                var _ref10, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_project__["a" /* default */].show(_extends({ space: space, project_id: project_id }, params));
+
+                            case 2:
+                                _ref10 = _context3.sent;
+                                data = _ref10.data;
+                                return _context3.abrupt('return', data);
+
+                            case 5:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function projectShow(_x5, _x6) {
+                return _ref9.apply(this, arguments);
+            }
+
+            return projectShow;
+        }()
+    },
+    mutations: {
+
+        SET_PROJECT_ITEM: function SET_PROJECT_ITEM(state, item) {
+            state.item = item;
+        }
+    },
+    getters: {
+        getProjectList: function getProjectList(state) {
+            return state.list;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/store/modules/server.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_server__ = __webpack_require__("./resources/assets/js/admin/api/server.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_project__ = __webpack_require__("./resources/assets/js/admin/api/project.js");
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: {
+        item: {},
+        list: []
+    },
+    actions: {
+        serverStore: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref, _ref2) {
+                var commit = _ref.commit,
+                    state = _ref.state;
+                var space_id = _ref2.space_id,
+                    name = _ref2.name,
+                    content = _ref2.content;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_server__["a" /* default */].store({ space_id: space_id, name: name, content: content });
+
+                            case 2:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function serverStore(_x, _x2) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return serverStore;
+        }(),
+        serverUpdate: function () {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(_ref4, _ref5) {
+                var commit = _ref4.commit,
+                    state = _ref4.state;
+                var space_id = _ref5.space_id,
+                    server_id = _ref5.server_id,
+                    name = _ref5.name,
+                    content = _ref5.content;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_server__["a" /* default */].update({ space_id: space_id, server_id: server_id, name: name, content: content });
+
+                            case 2:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function serverUpdate(_x3, _x4) {
+                return _ref6.apply(this, arguments);
+            }
+
+            return serverUpdate;
+        }(),
+        serverShow: function () {
+            var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(_ref8, _ref7) {
+                var commit = _ref8.commit,
+                    state = _ref8.state;
+
+                var space = _ref7.space,
+                    server_id = _ref7.server_id,
+                    params = _objectWithoutProperties(_ref7, ["space", "server_id"]);
+
+                var _ref10, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_server__["a" /* default */].show(_extends({ space: space, server_id: server_id }, params));
+
+                            case 2:
+                                _ref10 = _context3.sent;
+                                data = _ref10.data;
+                                return _context3.abrupt("return", data);
+
+                            case 5:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function serverShow(_x5, _x6) {
+                return _ref9.apply(this, arguments);
+            }
+
+            return serverShow;
+        }()
+    },
+    mutations: {
+
+        SET_SERVER_ITEM: function SET_SERVER_ITEM(state, item) {
+            state.item = item;
+        }
+    },
+    getters: {}
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/store/modules/space.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_space__ = __webpack_require__("./resources/assets/js/admin/api/space.js");
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: {
+        item: {},
+        list: []
+    },
+    actions: {
+        spaceFetch: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref2, _ref) {
+                var commit = _ref2.commit,
+                    state = _ref2.state;
+
+                var params = _objectWithoutProperties(_ref, []);
+
+                var _ref4, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_space__["a" /* default */].index(_extends({}, params));
+
+                            case 2:
+                                _ref4 = _context.sent;
+                                data = _ref4.data;
+
+
+                                // action只能通过提交commit来修改state,具体原因请查看vuex文档 (其实我也忘了为啥 (╯﹏╰))
+                                commit('SET_SPACE_LIST', data.data.spaces);
 
                             case 5:
                             case 'end':
@@ -5474,26 +6185,216 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 }, _callee, this);
             }));
 
-            function projectFetch(_x, _x2) {
+            function spaceFetch(_x, _x2) {
                 return _ref3.apply(this, arguments);
             }
 
-            return projectFetch;
+            return spaceFetch;
+        }(),
+        spaceStore: function () {
+            var _ref7 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(_ref5, _ref6) {
+                var commit = _ref5.commit,
+                    state = _ref5.state;
+                var name = _ref6.name,
+                    desc = _ref6.desc;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_space__["a" /* default */].store({ name: name, desc: desc });
+
+                            case 2:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function spaceStore(_x3, _x4) {
+                return _ref7.apply(this, arguments);
+            }
+
+            return spaceStore;
+        }(),
+        spaceShow: function () {
+            var _ref10 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(_ref8, _ref9) {
+                var commit = _ref8.commit,
+                    state = _ref8.state;
+                var id = _ref9.id;
+
+                var _ref11, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_space__["a" /* default */].show({ id: id });
+
+                            case 2:
+                                _ref11 = _context3.sent;
+                                data = _ref11.data;
+
+                                commit('SET_SPACE_ITEM', data.data.space);
+
+                            case 5:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function spaceShow(_x5, _x6) {
+                return _ref10.apply(this, arguments);
+            }
+
+            return spaceShow;
         }()
     },
     mutations: {
-        SET_LIST: function SET_LIST(state, item) {
+        SET_SPACE_LIST: function SET_SPACE_LIST(state, item) {
             state.list = item;
         },
-        SET_ITEM: function SET_ITEM(state, item) {
+        SET_SPACE_ITEM: function SET_SPACE_ITEM(state, item) {
             state.item = item;
         }
     },
-    getters: {
-        getProjectList: function getProjectList(state) {
-            return state.list;
+    getters: {}
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/store/modules/task.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__("./node_modules/babel-runtime/regenerator/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_task__ = __webpack_require__("./resources/assets/js/admin/api/task.js");
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: {
+        item: {},
+        list: []
+    },
+    actions: {
+        taskStore: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref2, _ref) {
+                var commit = _ref2.commit,
+                    state = _ref2.state;
+
+                var space_id = _ref.space_id,
+                    name = _ref.name,
+                    code = _ref.code,
+                    params = _objectWithoutProperties(_ref, ['space_id', 'name', 'code']);
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_task__["a" /* default */].store(_extends({ space_id: space_id, name: name, code: code }, params));
+
+                            case 2:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function taskStore(_x, _x2) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return taskStore;
+        }(),
+        taskUpdate: function () {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(_ref4, _ref5) {
+                var commit = _ref4.commit,
+                    state = _ref4.state;
+                var space_id = _ref5.space_id,
+                    task_id = _ref5.task_id,
+                    name = _ref5.name,
+                    code = _ref5.code;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_task__["a" /* default */].update({ space_id: space_id, task_id: task_id, name: name, code: code });
+
+                            case 2:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function taskUpdate(_x3, _x4) {
+                return _ref6.apply(this, arguments);
+            }
+
+            return taskUpdate;
+        }(),
+        taskShow: function () {
+            var _ref9 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee3(_ref8, _ref7) {
+                var commit = _ref8.commit,
+                    state = _ref8.state;
+
+                var space = _ref7.space,
+                    task_id = _ref7.task_id,
+                    params = _objectWithoutProperties(_ref7, ['space', 'task_id']);
+
+                var _ref10, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.next = 2;
+                                return __WEBPACK_IMPORTED_MODULE_1__api_task__["a" /* default */].show(_extends({ space: space, task_id: task_id }, params));
+
+                            case 2:
+                                _ref10 = _context3.sent;
+                                data = _ref10.data;
+                                return _context3.abrupt('return', data);
+
+                            case 5:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this);
+            }));
+
+            function taskShow(_x5, _x6) {
+                return _ref9.apply(this, arguments);
+            }
+
+            return taskShow;
+        }()
+    },
+    mutations: {
+
+        SET_TASK_ITEM: function SET_TASK_ITEM(state, item) {
+            state.item = item;
         }
-    }
+    },
+    getters: {}
 });
 
 /***/ }),
@@ -5538,7 +6439,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _ref3 = _context.sent;
                                 data = _ref3.data;
 
-                                console.log(data);
+
                                 // action只能通过提交commit来修改state,具体原因请查看vuex文档 (其实我也忘了为啥 (╯﹏╰))
                                 localStorage.setItem('token', data.access_token);
                                 commit('SET_TOKEN', data.access_token);
@@ -5551,7 +6452,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                     commit('SET_USER', {});
                                 });
 
-                            case 9:
+                            case 8:
                             case 'end':
                                 return _context.stop();
                         }
@@ -5579,15 +6480,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 /***/ }),
 
-/***/ "./resources/assets/js/admin/views/Home.vue":
+/***/ "./resources/assets/js/admin/views/backend/Home.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/views/Home.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}],\"syntax-dynamic-import\"]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/views/backend/Home.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-316e0ef2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/views/Home.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-1624f5e6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/views/backend/Home.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -5604,7 +6505,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/admin/views/Home.vue"
+Component.options.__file = "resources/assets/js/admin/views/backend/Home.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -5613,9 +6514,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-316e0ef2", Component.options)
+    hotAPI.createRecord("data-v-1624f5e6", Component.options)
   } else {
-    hotAPI.reload("data-v-316e0ef2", Component.options)
+    hotAPI.reload("data-v-1624f5e6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

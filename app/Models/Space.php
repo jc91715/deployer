@@ -16,4 +16,18 @@ class Space extends Model
             $model->rand_code = getRandomString();
         });
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    public function servers()
+    {
+        return $this->hasMany(Server::class);
+    }
+
 }

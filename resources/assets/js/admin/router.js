@@ -11,14 +11,18 @@ export const   router = new Router({
 router.beforeEach((to, from, next) => {
 
     // 获取 JWT Token
-    const publicPages = ['/login','/','/projects'];
+    const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
-    const jwtToken = localforage.getItem('token');
+    const jwtToken = localStorage.getItem('token');
     if(to.name!=='login'){
         store.commit('SET_INTEND',to.fullPath)
     }
     if (authRequired && !jwtToken) {
         return next('/login');
+    }
+    // //todo 已登录检查token
+    if(to.fullPath=='/'){
+       next('/backend')
     }
 
     next();

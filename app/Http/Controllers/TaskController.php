@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\Space;
 class TaskController extends Controller
 {
     /**
@@ -51,9 +52,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Space $space,Task $task)
     {
-        //
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['task'=>$task]]);
     }
 
     /**
@@ -74,9 +75,15 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Space $space,Task $task,Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required|max:255',
+            'code'=>'required',
+        ]);
+        $data = $request->only(['name','code']);
+        $task->update($data);
+        return response()->json(['errorCode'=>0,'errorMsg'=>'ok','data'=>['task'=>$task]]);
     }
 
     /**

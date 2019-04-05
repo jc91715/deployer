@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
 
-    protected $fillable = ['name','sever_id','space_id','repository'];
+    protected $fillable = ['name','server_id','space_id','repository','env'];
 
     public function tasks()
     {
         return $this->belongsToMany(Task::class,'project_tasks');
     }
-
+    public function deployments()
+    {
+        return $this->hasMany(Deployment::class);
+    }
     public function server()
     {
         return $this->belongsTo(Server::class);

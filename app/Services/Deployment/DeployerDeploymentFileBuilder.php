@@ -60,10 +60,25 @@ class DeployerDeploymentFileBuilder implements DeployerFileBuilderInterface
         // Declare a namespace
         $contents[] = 'namespace Deployer;';
 
+
+
         // Include task files
         foreach ($this->taskFile as $taskFile) {
             $contents[] = "require '{$taskFile->getFullPath()}';";
         }
+
+        //上传env配置文件
+        $id = md5(uniqid(rand(), true));
+        $baseName = "env_$id.php";
+        $envPath = storage_path("app/$baseName");
+        $this->fs->put($envPath, $this->project->env);
+
+        $contents[] =  "task('env:upload', function() {
+            // 将本地的 .env 文件上传到代码目录的 .env
+            upload('$envPath', '{{release_path}}/.env');
+        });
+        after('deploy:shared', 'env:upload');
+        ";
 
         // Set a repository
         $contents[] = "set('repository', '{$this->project->repository}');";
