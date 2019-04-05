@@ -32,6 +32,11 @@ php artisan db:seed
 * 1 yourdomain.com
 * 2 yourdomain.com/build/admin/index.html
 ### 如何使用
+使用之前部署该web的服务器的id_rsa.pub放到要部署的服务器上
+
+先熟悉使用 [deployer](https://deployer.org/)
+了解server和task的概念
+项目之间是通过空间隔开的，同一空间下的项目可以共享task和server。假如要配置测试环境，测试环境就是配置的一些参数不一样，可以新建一个项目，在项目的env（laravel框架）配置不同就可以，其它框架可以自行实现测试环境的配置
 
 #### 1新建空间
 #### 2 新建服务器
